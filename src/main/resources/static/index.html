@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mutiny</title>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="main.css" rel="stylesheet"/>
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="/app.js"></script>
+</head>
+<body>
+<noscript><h2 style="color: #ff0000">Seems your browser does not support Javascript!</h2></noscript>
+
+<div id="main-content" class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form class="inline">
+                <div class="form-group">
+                    <label for="content">What's on your mind?</label>
+                    <input type="text" id="content" class="form-control" placeholder="Your post here">
+                </div>
+                <button id="send" class="btn btn-default" type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table id="feed" class="table table-striped">
+                <thead>
+                <tr><th>Feed</th></tr>
+                </thead>
+                <tbody id="posts"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
