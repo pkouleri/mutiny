@@ -1,7 +1,8 @@
-package com.mutiny.controller;
+package com.mutiny.web.controller;
 
+import com.mutiny.dto.PostDto;
 import com.mutiny.service.PostService;
-import com.mutiny.model.InboundPost;
+import com.mutiny.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,7 +18,7 @@ public class PostController {
     PostService postService;
 
     @RequestMapping(value = "/add", method = {RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public void createPost(@RequestBody InboundPost post) {
+    public void createPost(@RequestBody PostDto post) {
         postService.createPost(post);
     }
 }

@@ -1,23 +1,18 @@
 package com.mutiny.model;
 
-public class OutboundPost {
-
-    private String content;
+public class Post {
 
     private long date;
 
     private String author;
 
-    public OutboundPost() {
+
+    private String content;
+
+    public Post() {
     }
 
-    public OutboundPost(String content, long date, String author) {
-        this.content = content;
-        this.date = date;
-        this.author = author;
-    }
-
-    public OutboundPost(String content) {
+    public Post(String content) {
         this.content = content;
     }
 

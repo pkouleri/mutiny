@@ -1,6 +1,7 @@
 package com.mutiny.service;
 
-import com.mutiny.model.InboundPost;
+import com.mutiny.dto.PostDto;
+import com.mutiny.model.Post;
 import com.mutiny.persistence.PostRepository;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,8 @@ public class PostService {
 
     PostRepository postRepository;
 
-    public void createPost(InboundPost post) {
-        postRepository.save(post);
+    public void createPost(PostDto post) {
+
+        postRepository.save(post.toEntity());
     }
 }

@@ -1,8 +1,7 @@
 package com.mutiny.events.listeners;
 
-import com.mutiny.model.OutboundPost;
 import com.mutiny.events.Event;
-import com.mutiny.model.InboundPost;
+import com.mutiny.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -12,19 +11,19 @@ import org.springframework.stereotype.Controller;
 import java.io.UnsupportedEncodingException;
 
 @Controller
-public class WebSocketListener implements EventListener {
+public class ClientEventListener implements EventListener {
 
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
 
     @MessageMapping("/post")
     @SendTo("/topic/posts")
-    public OutboundPost post(InboundPost message) throws Exception {
+    public Post post(Post message) throws Exception {
         Thread.sleep(1000);
-        return new OutboundPost("New post, " + message.getContent() + "!");
+        return new Post("New post, " + message.getContent() + "!");
     }
 
-    // event from rabbitMQ
+    // event from rabbitMQ is sent to connected client(s) via websockets
     @Override
     public void onEvent(Event event) {
         String message = getContent(event);

@@ -1,9 +1,13 @@
 package com.mutiny.events;
 
-import com.mutiny.model.InboundPost;
+import com.mutiny.model.Post;
 
 public class Event {
-    public Event(InboundPost post) {
+    public Event(Post post) {
+
+    }
+
+    public Event(String body) {
 
     }
 }

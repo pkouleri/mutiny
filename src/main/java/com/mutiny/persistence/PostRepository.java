@@ -1,7 +1,7 @@
 package com.mutiny.persistence;
 
 import com.mutiny.events.EventPublisher;
-import com.mutiny.model.InboundPost;
+import com.mutiny.model.Post;
 import com.mutiny.events.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,7 +9,7 @@ public class PostRepository {
     @Autowired
     EventPublisher eventPublisher;
 
-    public void save(InboundPost post) {
+    public void save(Post post) {
         doClientEvent(new Event(post));
     }
 
