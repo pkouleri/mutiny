@@ -1,27 +1,26 @@
 package com.mutiny.persistence;
 
-import com.mutiny.events.EventPublisher;
-import com.mutiny.model.Post;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+import java.util.List;
+
 import com.mutiny.events.Event;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.mutiny.model.Post;
 
-public class PostRepository {
-    @Autowired
-    EventPublisher eventPublisher;
+public class PostRepository extends AbstractRepository {
 
-    public void save(Post post) {
+    public Post save(Post post) {
+        // todo save post
         doClientEvent(new Event(post));
+        return post;
     }
 
-    private void doClientEvent(Event event) {
-        getEventPublisher().fireClientEvent(event);
+    public Post findOne(long id) {
+        throw new NotImplementedException();
     }
 
-    public EventPublisher getEventPublisher() {
-        return eventPublisher;
+    public List<Post> findAll() {
+        throw new NotImplementedException();
     }
 
-    public void setEventPublisher(EventPublisher eventPublisher) {
-        this.eventPublisher = eventPublisher;
-    }
 }
