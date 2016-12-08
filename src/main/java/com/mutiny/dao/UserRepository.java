@@ -1,4 +1,4 @@
-package com.mutiny.persistence;
+package com.mutiny.dao;
 
 public class UserRepository extends AbstractRepository {
 

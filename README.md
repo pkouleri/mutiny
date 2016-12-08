@@ -1,2 +1,2 @@
 # mutiny
-upstream hackathon project
+Upstream Hackathon Project

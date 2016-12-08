@@ -1,4 +1,4 @@
-package com.mutiny.persistence;
+package com.mutiny.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
