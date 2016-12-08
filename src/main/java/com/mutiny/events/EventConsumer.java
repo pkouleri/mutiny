@@ -1,12 +1,13 @@
 package com.mutiny.events;
 
-import com.mutiny.events.listeners.EventListener;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.core.MessageListener;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageListener;
+
+import com.mutiny.events.listeners.EventListener;
 
 public class EventConsumer implements MessageListener {
     protected List<EventListener> listeners = new ArrayList<>();
