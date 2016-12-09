@@ -1,8 +1,13 @@
 package com.mutiny.model;
 
-import java.time.ZonedDateTime;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -16,17 +21,23 @@ public class Post {
 
     private Integer id;
 
-    private ZonedDateTime createdAt;
-
     private Account account;
 
     private String content;
 
-    private Integer category;
+    private Category category;
 
     public Post() {
     }
 
+    public Post(Account account, Category category, String content) {
+        this.account = account;
+        this.category = category;
+        this.content = content;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Integer getId() {
         return id;
     }
@@ -39,6 +50,7 @@ public class Post {
         this.content = content;
     }
 
+    @Column(name = "CONTENT", nullable = false)
     public String getContent() {
         return content;
     }
@@ -47,14 +59,8 @@ public class Post {
         this.content = content;
     }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "ACCOUNT_ID", referencedColumnName = "ID", nullable = false)
     public Account getAccount() {
         return account;
     }
@@ -63,11 +69,14 @@ public class Post {
         this.account = account;
     }
 
-    public Integer getCategory() {
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @JoinColumn(name = "CATEGORY_ID", nullable = false)
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(Integer category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
+
 }

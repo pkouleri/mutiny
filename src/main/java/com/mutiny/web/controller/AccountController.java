@@ -6,21 +6,27 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mutiny.model.Account;
+import com.mutiny.dto.AccountDto;
+import com.mutiny.service.AccountService;
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/account")
+public class AccountController {
+
+	@Autowired
+	AccountService accountService;
 
 	@RequestMapping(path = "/openid/login", method = { RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public Account authenticateOpenId(@RequestParam String openIdUsername, @RequestParam String openIdEndpoint, @RequestParam String returnUrl,
+	public AccountDto authenticateOpenId(@RequestParam String openIdUsername, @RequestParam String openIdEndpoint, @RequestParam String returnUrl,
 			HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		throw new NotImplementedException();
 	}
@@ -32,8 +38,13 @@ public class UserController {
 	}
 
 	@RequestMapping(path = "/{id}", method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public Account getUser(@PathVariable long userId, HttpSession session) {
-		throw new NotImplementedException();
+	public AccountDto getAccount(@PathVariable Integer id, HttpSession session) {
+		return accountService.getAccount(id);
+	}
+
+	@RequestMapping(method = { RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public AccountDto createAccount(@RequestBody AccountDto accountDto) {
+		return accountService.createAccount(accountDto);
 	}
 
 }

@@ -22,8 +22,6 @@ public class PostService extends AbstractService {
 	CategoryRepository categoryRepository;
 
 	public PostDto createPost(PostDto postDto) {
-		// todo code to get info from movies, cinema, books APIs here
-
 		Post post = postRepository.save(postDto.toEntity());
 		if (post != null) {
 			doClientEvent(new Event(post));

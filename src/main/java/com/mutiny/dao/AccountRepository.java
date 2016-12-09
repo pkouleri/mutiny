@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.mutiny.model.Account;
 
-public interface UserRepository extends CrudRepository<Account, Integer> {
+public interface AccountRepository extends CrudRepository<Account, Integer> {
 
 }

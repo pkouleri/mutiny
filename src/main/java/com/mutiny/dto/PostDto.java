@@ -1,14 +1,16 @@
 package com.mutiny.dto;
 
+import com.mutiny.model.Account;
+import com.mutiny.model.Category;
 import com.mutiny.model.Post;
 
 public class PostDto {
 
 	public Integer id;
 
-	public Integer userId;
+	public Account account;
 
-	public Integer categoryId;
+	public Category category;
 
 	/* common */
 	public String imageUrl;
@@ -26,28 +28,21 @@ public class PostDto {
 	/* book, movie */
 	public String title;
 
+	public PostDto() {
+	}
+
+	public PostDto(Integer id, Account account, Category category) {
+		this.id = id;
+		this.account = account;
+		this.category = category;
+	}
+
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
-	public Integer getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(Integer categoryId) {
-		this.categoryId = categoryId;
 	}
 
 	public String getImageUrl() {
@@ -99,11 +94,16 @@ public class PostDto {
 	}
 
 	public Post toEntity() {
-		return null;
+		return new Post(account, category, getContent());
 	}
 
 	public PostDto fromEntity(Post post) {
-		return null;
+		return new PostDto(post.getId(), post.getAccount(), post.getCategory());
 	}
+
+	private String getContent() {
+		return "test";
+	}
+
 
 }

@@ -1,21 +1,22 @@
 package com.mutiny.events.listeners;
 
-import com.mutiny.events.Event;
-import com.mutiny.model.Post;
+import java.io.UnsupportedEncodingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 
-import java.io.UnsupportedEncodingException;
+import com.mutiny.events.Event;
+import com.mutiny.model.Post;
 
 @Controller
 public class ClientEventListener implements EventListener {
 
     @Autowired
     private SimpMessageSendingOperations messagingTemplate;
-
+    
     @MessageMapping("/post")
     @SendTo("/topic/posts")
     public Post post(Post message) throws Exception {
