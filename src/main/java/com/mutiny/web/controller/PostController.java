@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mutiny.dto.PostDto;
+import com.mutiny.dto.AbstractPostDto;
+import com.mutiny.dto.PostRequest;
 import com.mutiny.service.PostService;
 
 @RestController
@@ -22,27 +23,27 @@ public class PostController {
     PostService postService;
 
     @RequestMapping(method = { RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public PostDto createPost(@RequestBody PostDto post) {
+    public AbstractPostDto createPost(@RequestBody PostRequest post) {
         return postService.createPost(post);
     }
 
     @RequestMapping(method = { RequestMethod.PUT }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public PostDto updatePost(@RequestBody PostDto post) {
+    public AbstractPostDto updatePost(@RequestBody AbstractPostDto post) {
         return postService.updatePost(post);
     }
 
     @RequestMapping(path = "/{id}", method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public PostDto getPost(@PathVariable Integer id) {
+    public AbstractPostDto getPost(@PathVariable Integer id) {
         return postService.getPost(id);
     }
 
     @RequestMapping(path = "/{id}", method = { RequestMethod.DELETE }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public PostDto deletePost(@PathVariable Integer id) {
+    public AbstractPostDto deletePost(@PathVariable Integer id) {
         return postService.getPost(id);
     }
 
     @RequestMapping(path = "/list", method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<PostDto> getPosts(@RequestParam List<String> categories) {
+    public List<AbstractPostDto> getPosts(@RequestParam List<String> categories) {
         return postService.getPosts(categories);
     }
 
