@@ -20,7 +20,7 @@ public class EventPublisher {
 	 */
 	public void fireClientEvent(Event event) {
 		try {
-			byte[] messageBytes = "event to message bytes".getBytes("utf-8");
+			byte[] messageBytes = event.getContent().getBytes("utf-8");
 
 			MessageProperties messageProperties = new MessageProperties();
 			messageProperties.setContentEncoding("utf-8");

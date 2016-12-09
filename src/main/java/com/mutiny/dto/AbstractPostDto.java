@@ -87,6 +87,4 @@ public abstract class AbstractPostDto {
 		this.category = category;
 	}
 
-	public abstract String getContent();
-
 }
