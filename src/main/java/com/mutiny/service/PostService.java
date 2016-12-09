@@ -33,10 +33,7 @@ public class PostService extends AbstractService {
 
 	public PostDto createPost(PostDto postDto) {
 
-		if (categoryRepository.findOne(postDto.category.getId()).getName().equals("Music")) {
-			postDto.account = accountRepository.findOne(postDto.account.getId());
-			postDto.category = categoryRepository.findByName(postDto.category.getName());
-		}
+		postDto.account = accountRepository.findOne(postDto.account.getId());
 
 		Post post = postRepository.save(postDto.toEntity());
 		if (post != null) {

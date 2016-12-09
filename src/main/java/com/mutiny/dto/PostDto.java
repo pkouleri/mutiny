@@ -1,11 +1,13 @@
 package com.mutiny.dto;
 
+import com.mutiny.dao.CategoryRepository;
 import com.mutiny.model.Account;
 import com.mutiny.model.Category;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mutiny.model.Post;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
@@ -14,11 +16,14 @@ import java.util.Map;
 
 public class PostDto {
 
+	@Autowired
+	CategoryRepository categoryRepository;
+
 	public Integer id;
 
 	public Account account;
 
-	public Category category;
+	public String category;
 
 	/* common */
 	@JsonProperty("#text")
@@ -43,7 +48,7 @@ public class PostDto {
 	public PostDto() {
 	}
 
-	public PostDto(Integer id, Account account, Category category) {
+	public PostDto(Integer id, Account account, String category) {
 		this.id = id;
 		this.account = account;
 		this.category = category;
@@ -110,14 +115,24 @@ public class PostDto {
 	public void setArtist(String artist) { this.artist = artist; }
 
 	public Post toEntity() {
-		return new Post(account, category, getContent());
+		return new Post(account, categoryRepository.findByName(category), getContent());
 	}
 
 	public PostDto fromEntity(Post post) {
-		return new PostDto(post.getId(), post.getAccount(), post.getCategory());
+		return new PostDto(post.getId(), post.getAccount(), post.getCategory().getName());
 	}
 
-	public String getContent() {
+	private String getContent() {
+
+		if (category.equals("Music")) {
+			return getMusicContent();
+		} else {
+			return new String();
+		}
+
+	}
+
+	private String getMusicContent() {
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
 
@@ -133,11 +148,11 @@ public class PostDto {
 		MusicResponse response = new MusicResponse();
 		try {
 			response = restTemplate.getForObject(musicUrl, MusicResponse.class, parameters);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		for (Iterator<AlbumImage> iterator = response.getAlbum().getImages().iterator(); iterator.hasNext();) {
+		for (Iterator<AlbumImage> iterator = response.getAlbum().getImages().iterator(); iterator.hasNext(); ) {
 			AlbumImage image = iterator.next();
 			if (!image.getSize().equals("extralarge")) {
 				iterator.remove();
@@ -153,6 +168,5 @@ public class PostDto {
 
 		return jsonResponse;
 	}
-
 
 }
