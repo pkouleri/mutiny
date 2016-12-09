@@ -40,8 +40,13 @@ public class PostService extends AbstractService {
 		AbstractPostDto postDto = null;
 
 		// 1. get info from external API
-		if (postRequest.getCategory().equals("Music")) {
-			postDto = apiClient.getMusicContent(postRequest.getAlbumName(), postRequest.getArtist());
+		switch  (postRequest.getCategory().toLowerCase()) {
+			case "music":
+				postDto = apiClient.getMusicContent(postRequest.getAlbumName(), postRequest.getArtist());
+				break;
+			case "movie":
+				postDto = apiClient.getMovieContent(postRequest.getMovieTitle());
+				break;
 		}
 
 		// 2. save to DB
@@ -52,8 +57,6 @@ public class PostService extends AbstractService {
 			if (post != null) {
 				doClientEvent(new Event(post));
 			}
-		} else {
-
 		}
 
 		return postDto;

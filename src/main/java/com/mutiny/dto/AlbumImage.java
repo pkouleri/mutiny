@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by sakis on 12/9/16.
- */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AlbumImage {
@@ -17,8 +14,8 @@ public class AlbumImage {
     private String size;
 
     public AlbumImage() {
-        this.imageUrl = new String();
-        this.size = new String();
+        this.imageUrl = "";
+        this.size = "";
     }
 
     public String getSize() { return size; }

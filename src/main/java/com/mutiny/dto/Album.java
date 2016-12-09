@@ -6,10 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by sakis on 12/9/16.
- */
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Album {
 
@@ -24,10 +20,10 @@ public class Album {
     private AlbumTag albumTags;
 
     public Album() {
-        this.images = new ArrayList<AlbumImage>();
-        this.artist = new String();
-        this.name = new String();
-        this.albumTags = new AlbumTag();
+        images = new ArrayList<AlbumImage>();
+        artist = "";
+        name = "";
+        albumTags = new AlbumTag();
     }
 
     public String getName() { return name; }

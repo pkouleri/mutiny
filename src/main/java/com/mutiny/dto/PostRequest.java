@@ -12,6 +12,8 @@ public class PostRequest {
 
 	private String artist;
 
+	private String movieTitle;
+
 	public String description;
 
 	public String author;
@@ -53,4 +55,8 @@ public class PostRequest {
 	public String getArtist() {
 		return artist;
 	}
+
+	public String getMovieTitle() { return movieTitle; }
+
+	public void setMovieTitle(String movieTitle) { this.movieTitle = movieTitle; }
 }
