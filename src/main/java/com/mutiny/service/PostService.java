@@ -3,8 +3,10 @@ package com.mutiny.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.mutiny.dao.CategoryRepository;
 import com.mutiny.dao.PostRepository;
 import com.mutiny.dto.PostDto;
 import com.mutiny.events.Event;
@@ -13,7 +15,11 @@ import com.mutiny.model.Post;
 @Component
 public class PostService extends AbstractService {
 
+	@Autowired
 	PostRepository postRepository;
+
+	@Autowired
+	CategoryRepository categoryRepository;
 
 	public PostDto createPost(PostDto postDto) {
 		// todo code to get info from movies, cinema, books APIs here
