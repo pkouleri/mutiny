@@ -1,11 +1,11 @@
-package com.mutiny.dao;
+package com.mutiny.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.mutiny.events.Event;
 import com.mutiny.events.EventPublisher;
 
-public abstract class AbstractRepository {
+public abstract class AbstractService {
 
 	@Autowired
 	EventPublisher eventPublisher;

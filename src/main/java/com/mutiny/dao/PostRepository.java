@@ -1,26 +1,15 @@
 package com.mutiny.dao;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.List;
 
-import com.mutiny.events.Event;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+
 import com.mutiny.model.Post;
 
-public class PostRepository extends AbstractRepository {
+public interface PostRepository extends CrudRepository<Post, Integer> {
 
-	public Post save(Post post) {
-		// todo save post
-		doClientEvent(new Event(post));
-		return post;
-	}
-
-	public Post findOne(long id) {
-		throw new NotImplementedException();
-	}
-
-	public List<Post> findAll() {
-		throw new NotImplementedException();
-	}
-
+	@Query("select p from Post p where p.category in (:categories)")
+	public List<Post> findByCategory(@Param("categories") List<String> categories);
 }

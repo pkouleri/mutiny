@@ -1,15 +1,38 @@
 package com.mutiny.model;
 
+import java.time.ZonedDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+@Entity
+@DynamicUpdate
+@DynamicInsert
+@Table(name = "POST", schema = "MUTINY")
 public class Post {
 
-    private long date;
+    private Integer id;
 
-    private String author;
+    private ZonedDateTime createdAt;
 
+    private User user;
 
     private String content;
 
+    private Integer category;
+
     public Post() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Post(String content) {
@@ -24,19 +47,27 @@ public class Post {
         this.content = content;
     }
 
-    public long getDate() {
-        return date;
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setDate(long date) {
-        this.date = date;
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getAuthor() {
-        return author;
+    public User getUser() {
+        return user;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setCategory(Integer category) {
+        this.category = category;
     }
 }
