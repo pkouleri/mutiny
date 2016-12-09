@@ -18,6 +18,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.common.collect.ImmutableMap;
@@ -78,9 +79,14 @@ public class MutinyApplication extends SpringBootServletInitializer {
 	}
 
 	@Bean
-	public EventConsumer receiver() {
+	public ClientEventListener clientEventListener(SimpMessagingTemplate simpMessagingTemplate) {
+		return new ClientEventListener(simpMessagingTemplate);
+	}
+
+	@Bean
+	public EventConsumer receiver(ClientEventListener clientEventListener) {
 		List<EventListener> listeners = new ArrayList<>();
-		listeners.add(new ClientEventListener());
+		listeners.add(clientEventListener);
 		return new EventConsumer(listeners);
 	}
 
