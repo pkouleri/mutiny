@@ -2,7 +2,15 @@ package com.mutiny.dto;
 
 import com.mutiny.model.Account;
 import com.mutiny.model.Category;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mutiny.model.Post;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class PostDto {
 
@@ -13,6 +21,7 @@ public class PostDto {
 	public Category category;
 
 	/* common */
+	@JsonProperty("#text")
 	public String imageUrl;
 
 	public String description;
@@ -20,6 +29,9 @@ public class PostDto {
 	public String author;
 
 	/* music */
+	@JsonProperty("artist")
+	public String artist;
+	@JsonProperty("name")
 	public String albumName;
 
 	/* book */
@@ -93,6 +105,10 @@ public class PostDto {
 		this.title = title;
 	}
 
+	public String getArtist() { return artist; }
+
+	public void setArtist(String artist) { this.artist = artist; }
+
 	public Post toEntity() {
 		return new Post(account, category, getContent());
 	}
@@ -101,8 +117,41 @@ public class PostDto {
 		return new PostDto(post.getId(), post.getAccount(), post.getCategory());
 	}
 
-	private String getContent() {
-		return "test";
+	public String getContent() {
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
+
+		RestTemplate restTemplate = new RestTemplate();
+		String musicUrl = "http://ws.audioscrobbler.com/2.0/?method={method}&api_key={api_key}&artist={artist}&album={album}&format={format}";
+		Map<String, String> parameters = new HashMap<String, String>(5);
+		parameters.put("method", "album.getinfo");
+		parameters.put("api_key", "4518374e76d4e50422d00d9af42b32cd");
+		parameters.put("artist", getArtist());
+		parameters.put("album", getAlbumName());
+		parameters.put("format", "json");
+
+		MusicResponse response = new MusicResponse();
+		try {
+			response = restTemplate.getForObject(musicUrl, MusicResponse.class, parameters);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
+		for (Iterator<AlbumImage> iterator = response.getAlbum().getImages().iterator(); iterator.hasNext();) {
+			AlbumImage image = iterator.next();
+			if (!image.getSize().equals("extralarge")) {
+				iterator.remove();
+			}
+		}
+
+		String jsonResponse = new String();
+		try {
+			jsonResponse = mapper.writeValueAsString(response.getAlbum());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return jsonResponse;
 	}
 
 
