@@ -57,8 +57,6 @@ public class PostService extends AbstractService {
 
 				doClientEvent(new Event(postDto));
 			}
-		} else {
-
 		}
 
 		return postDto;
