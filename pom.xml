@@ -23,8 +23,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <db.module.url>jdbc:postgresql://${db.host}:${db.port}/${db.module.database.name}</db.module.url>
-        <db.module.database.name>routing</db.module.database.name>
-        <db.module.userId>dryad_routing</db.module.userId>
+        <db.module.database.name>mutiny</db.module.database.name>
+        <db.module.userId>mutiny</db.module.userId>
 
         <db.root.url>jdbc:postgresql://${db.host}:${db.port}/postgres</db.root.url>
         <db.root.userId>postgres</db.root.userId>

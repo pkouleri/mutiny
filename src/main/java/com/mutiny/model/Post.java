@@ -18,7 +18,7 @@ public class Post {
 
     private ZonedDateTime createdAt;
 
-    private User user;
+    private Account account;
 
     private String content;
 
@@ -55,12 +55,12 @@ public class Post {
         this.createdAt = createdAt;
     }
 
-    public User getUser() {
-        return user;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Integer getCategory() {

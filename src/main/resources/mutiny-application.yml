@@ -4,7 +4,7 @@ spring:
     aop.proxy-target-class: true
     datasource:
         url: jdbc:postgresql://rdbms:5432/mutiny
-        username: postgres
+        username: mutiny
         password: upstream
         driver-class-name: org.postgresql.Driver
         max-wait: 10000

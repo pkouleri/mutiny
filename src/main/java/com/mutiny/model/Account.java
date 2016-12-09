@@ -11,8 +11,8 @@ import org.hibernate.annotations.DynamicUpdate;
 @Entity
 @DynamicUpdate
 @DynamicInsert
-@Table(name = "USER", schema = "MUTINY")
-public class User {
+@Table(name = "ACCOUNT", schema = "MUTINY")
+public class Account {
 
 	private Integer id;
 
@@ -26,4 +26,11 @@ public class User {
 		this.id = id;
 	}
 
+	public ZonedDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(ZonedDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
 }

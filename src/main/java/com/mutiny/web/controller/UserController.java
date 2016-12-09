@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mutiny.model.User;
+import com.mutiny.model.Account;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
 	@RequestMapping(path = "/openid/login", method = { RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public User authenticateOpenId(@RequestParam String openIdUsername, @RequestParam String openIdEndpoint, @RequestParam String returnUrl,
+	public Account authenticateOpenId(@RequestParam String openIdUsername, @RequestParam String openIdEndpoint, @RequestParam String returnUrl,
 			HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		throw new NotImplementedException();
 	}
@@ -32,7 +32,7 @@ public class UserController {
 	}
 
 	@RequestMapping(path = "/{id}", method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public User getUser(@PathVariable long userId, HttpSession session) {
+	public Account getUser(@PathVariable long userId, HttpSession session) {
 		throw new NotImplementedException();
 	}
 
