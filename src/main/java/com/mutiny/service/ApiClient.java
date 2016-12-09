@@ -31,7 +31,6 @@ public class ApiClient {
 		parameters.put("artist", artist);
 		parameters.put("album", album);
 		parameters.put("format", "json");
-
 		try {
 			response = restTemplate.getForObject(musicUrl, MusicPostDto.class, parameters);
 			for (Iterator<AlbumImage> iterator = response.getAlbum().getImages().iterator(); iterator.hasNext(); ) {
@@ -44,7 +43,11 @@ public class ApiClient {
 			e.printStackTrace();
 		}
 
-		return response;
+		if (response.getAlbum().getName().equals("") && response.getAlbum().getArtist().equals("")) {
+			return null;
+		} else {
+			return response;
+		}
 	}
 
 	public BookPostDto getBookContent(String author, String title) {

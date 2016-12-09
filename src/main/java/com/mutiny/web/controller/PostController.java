@@ -3,7 +3,9 @@ package com.mutiny.web.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +25,13 @@ public class PostController {
     PostService postService;
 
     @RequestMapping(method = { RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public AbstractPostDto createPost(@RequestBody PostRequest post) {
-        return postService.createPost(post);
+    public ResponseEntity<AbstractPostDto> createPost(@RequestBody PostRequest post) {
+        AbstractPostDto postDto = postService.createPost(post);
+        if (postDto != null) {
+            return new ResponseEntity<AbstractPostDto>(postDto, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<AbstractPostDto>(postDto, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @RequestMapping(method = { RequestMethod.PUT }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
