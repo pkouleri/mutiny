@@ -20,16 +20,25 @@ public class Account {
 	private String username;
 	private String type;
 	private String email;
+	private String principal;
 
 	public Account() {
 
 	}
-
-	public Account(String username, String type, String email) {
+	
+	public Account(String username, String type, String email){
 		this.username = username;
 		this.type = type;
 		this.email = email;
 	}
+
+	public Account(String username, String type, String email, String principal) {
+		this.username = username;
+		this.type = type;
+		this.email = email;
+		this.principal = principal;
+	}
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,5 +75,14 @@ public class Account {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	@Column(name = "PRINCIPAL")
+	public String getPrincipal() {
+		return principal;
+	}
+	
+	public void setPrincipal(String principal) {
+		this.principal = principal;
 	}
 }
