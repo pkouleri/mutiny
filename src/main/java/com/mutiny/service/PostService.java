@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.Iterables;
 import com.mutiny.dao.AccountRepository;
 import com.mutiny.dao.CategoryRepository;
 import com.mutiny.dao.PostRepository;
@@ -63,9 +65,33 @@ public class PostService extends AbstractService {
 	}
 
 	public AbstractPostDto getPost(Integer id) {
-		AbstractPostDto dto = null;
-
 		Post post = postRepository.findOne(id);
+		AbstractPostDto dto = getPostDto(post);
+
+		return dto;
+	}
+
+	public AbstractPostDto updatePost(AbstractPostDto post) {
+		return null;
+	}
+
+	public List<AbstractPostDto> getPosts(List<String> categories) {
+		List<AbstractPostDto> dtos = new ArrayList<>();
+		List<Post> posts = new ArrayList<>();
+		if (!CollectionUtils.isEmpty(categories)) {
+			posts = postRepository.findByCategory(categories);
+		} else {
+			Iterables.addAll(posts, postRepository.findAll());
+		}
+
+		for (Post post : posts) {
+			dtos.add(getPostDto(post));
+		}
+		return dtos;
+	}
+
+	private AbstractPostDto getPostDto(Post post) {
+		AbstractPostDto dto = null;
 		switch (post.getCategory().getName()) {
 		case "music":
 			dto = JsonHelper.fromJson(post.getContent(), new TypeReference<MusicPostDto>() {
@@ -86,19 +112,7 @@ public class PostService extends AbstractService {
 			dto.setAccount(post.getAccount());
 			dto.setCategory(post.getCategory());
 		}
-
+		
 		return dto;
-	}
-
-	public AbstractPostDto updatePost(AbstractPostDto post) {
-		return null;
-	}
-
-	public List<AbstractPostDto> getPosts(List<String> categories) {
-		List<AbstractPostDto> abstractPostDtos = new ArrayList<>();
-		//		for (Post post : postRepository.findByCategory(categories)) {
-		//			abstractPostDtos.add(new AbstractPostDto().fromEntity(post));
-		//		}
-		return abstractPostDtos;
 	}
 }

@@ -28,9 +28,9 @@ public class PostController {
     public ResponseEntity<AbstractPostDto> createPost(@RequestBody PostRequest post) {
         AbstractPostDto postDto = postService.createPost(post);
         if (postDto != null) {
-            return new ResponseEntity<AbstractPostDto>(postDto, HttpStatus.CREATED);
+            return new ResponseEntity<>(postDto, HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<AbstractPostDto>(postDto, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(postDto, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -50,7 +50,7 @@ public class PostController {
     }
 
     @RequestMapping(path = "/list", method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<AbstractPostDto> getPosts(@RequestParam List<String> categories) {
+    public List<AbstractPostDto> getPosts(@RequestParam(required = false) List<String> categories) {
         return postService.getPosts(categories);
     }
 
