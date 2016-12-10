@@ -44,7 +44,7 @@ public class PostService extends AbstractService {
 			case "music":
 				postDto = apiClient.getMusicContent(postRequest.getAlbumName(), postRequest.getArtist());
 				break;
-			case "movie":
+			case "movies":
 				postDto = apiClient.getMovieContent(postRequest.getMovieTitle());
 				break;
 		}
@@ -52,7 +52,7 @@ public class PostService extends AbstractService {
 		// 2. save to DB
 		if (postDto != null) {
 			Account account = accountRepository.findOne(postRequest.getAccountId());
-			Category category = categoryRepository.findByName(postRequest.getCategory());
+			Category category = categoryRepository.findByNameIgnoreCase(postRequest.getCategory());
 
 			Post post = postRepository.save(new Post(account, category, JsonHelper.toJson(postDto)));
 			if (post != null) {

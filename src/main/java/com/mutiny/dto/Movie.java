@@ -9,11 +9,13 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie {
 
+    @JsonProperty("poster_path")
     private String posterPath;
 
     private String overview;
 
-    private String release_date;
+    @JsonProperty("release_date")
+    private String releaseDate;
 
     @JsonProperty("genre_ids")
     private List<Integer> genres;
@@ -24,7 +26,7 @@ public class Movie {
     public Movie() {
         posterPath = "";
         overview = "";
-        release_date = "";
+        releaseDate = "";
         genres = new ArrayList<Integer>();
         title = "";
     }
@@ -37,9 +39,9 @@ public class Movie {
 
     public void setOverview(String overview) { this.overview = overview; }
 
-    public String getRelease_date() { return release_date; }
+    public String getReleaseDate() { return releaseDate; }
 
-    public void setRelease_date(String release_date) { this.release_date = release_date; }
+    public void setReleaseDate(String releaseDate) { this.releaseDate = releaseDate; }
 
     public List<Integer> getGenres() { return genres; }
 

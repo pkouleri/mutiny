@@ -64,8 +64,8 @@ public class ApiClient {
 			response.getMovies().clear();
 			response.getMovies().add(firstMovie);
 
-//			String
-//			response.getMovies().get(0).set
+			String postPath = response.getMovies().get(0).getPosterPath();
+			response.getMovies().get(0).setPosterPath("https://image.tmdb.org/t/p/w342" + postPath);
 
 			for (Integer genreId : response.getMovies().get(0).getGenres()) {
 				for ( MovieGenre gerne : genresList.getGenresList() ) {
