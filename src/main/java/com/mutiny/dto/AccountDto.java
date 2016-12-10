@@ -11,22 +11,44 @@ public class AccountDto {
 	private String type;
 
 	private String email;
+	
+	private String principal;
+	
+	private Boolean isNewUser;
+
+	public Boolean getIsNewUser() {
+		return isNewUser;
+	}
+
+	public void setIsNewUser(Boolean isNewUser) {
+		this.isNewUser = isNewUser;
+	}
 
 	public AccountDto() {
 	}
-
+	
 	public AccountDto(String username, String type, String email) {
 		this.username = username;
 		this.type = type;
 		this.email = email;
 	}
-
-	public AccountDto(Integer id, String username, String type, String email) {
+	
+	public AccountDto(Integer id, String username, String type, String email, String principal) {
 		this.id = id;
 		this.username = username;
 		this.type = type;
 		this.email = email;
+		this.principal = principal;
 	}
+
+	public String getPrincipal() {
+		return principal;
+	}
+
+	public void setPrincipal(String principal) {
+		this.principal = principal;
+	}
+
 
 	public Integer getId() {
 		return id;
@@ -61,10 +83,10 @@ public class AccountDto {
 	}
 
 	public AccountDto fromEntity(Account account) {
-		return new AccountDto(account.getId(), account.getUsername(), account.getType(), account.getEmail());
+		return new AccountDto(account.getId(), account.getUsername(), account.getType(), account.getEmail(), account.getPrincipal());
 	}
 
 	public Account toEntity(AccountDto accountDto) {
-		return new Account(accountDto.getUsername(), accountDto.getType(), accountDto.getEmail());
+		return new Account(accountDto.getUsername(), accountDto.getType(), accountDto.getEmail(), accountDto.getPrincipal());
 	}
 }

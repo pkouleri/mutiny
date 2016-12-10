@@ -10,6 +10,6 @@ import com.mutiny.model.Post;
 
 public interface PostRepository extends CrudRepository<Post, Integer> {
 
-	@Query("select p from Post p where p.category in (:categories)")
+	@Query("select p from Post p where p.category.name in (:categories)")
 	public List<Post> findByCategory(@Param("categories") List<String> categories);
 }

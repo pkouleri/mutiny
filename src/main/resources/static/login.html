@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+
+<meta name="_csrf_parameter" content="_csrf" />
+<meta name="_csrf_header" content="X-CSRF-TOKEN" />
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Demo</title>
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width" />
+<base href="/" />
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/css/bootstrap.min.css" />
+<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body ng-app="app" ng-controller="home as home">
+<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+<script>
+window.fbAsyncInit = function() {
+    FB.init({ 
+      appId: '201488213642907',
+      status: true, 
+      cookie: true, 
+      xfbml: true,
+      version: 'v2.6'
+    });
+};
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+<a href="javascript:void(0);" class="user info" onclick="userInfo();">user info</a> 
+
+	<h1>Login</h1>
+	<div class="container" ng-show="!home.authenticated">
+		With Facebook: <a href="/login">click here</a>
+	</div>
+	<div class="container" ng-show="home.authenticated">
+		Logged in as: <span ng-bind="home.user"></span>
+		<div>
+			<button ng-click="home.logout()" class="btn btn-primary">Logout</button>
+		</div>
+	</div>
+	<script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
+	<script type="text/javascript">
+	var username;
+	
+	angular
+	.module("app", [])
+// 	.run(['$http', '$cookies', function($http, $cookies) {
+//   		$http.defaults.headers.post['X-CSRFToken'] = $cookies.csrftoken;
+// 	}])
+	
+	
+	.config(
+			function($httpProvider) {
+				$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+				$httpProvider.defaults.xsrfCookieName = 'csrftoken';
+			    $httpProvider.defaults.csrfHeaderName = 'X-CSRF-TOKEN';
+
+//  			$httpProvider.defaults.headers.post['X-CSRFToken'] = $cookies['csrftoken'];
+			    $httpProvider.defaults.headers.put = {
+			            'Access-Control-Allow-Origin': '*',
+			            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+			            'Access-Control-Allow-Headers': 'Content-Type, X-Requested-With'
+			            };
+			    $httpProvider.defaults.useXDomain = true;
+			    
+			}).controller("home", function($http, $location) {
+		var self = this;
+		$http.get("/account/user").success(function(data) {
+			console.info(data);
+			if(data!=""){
+				}
+			self.user = data.userAuthentication.details.name;
+			self.authenticated = true;
+			username = data.userAuthentication.details.name;
+			document.cookie="username="+username;
+		}).error(function() {
+			self.user = "N/A";
+			self.authenticated = false;
+		});
+		self.logout = function() {
+			$http.post('logout', {}).success(function() {
+				self.authenticated = false;
+				$location.path("/");
+			}).error(function(data) {
+				console.log("Logout failed")
+				self.authenticated = false;
+			});
+		};
+	});
+
+	angular.module('hbCSRF', [])
+
+    .provider('csrf', function () {
+        var headerName = 'xsrf-token';
+        var cookieName = '_csrf';
+        var allowedMethods = ['GET', 'HEAD', 'OPTIONS'];
+
+        this.setHeaderName = function (n) {
+            headerName = n;
+        }
+        this.setCookieName = function (n) {
+            cookieName = n;
+        }
+        this.setAllowedMethods = function (n) {
+            allowedMethods = n;
+        }
+        this.$get = function ($cookies) {
+            return {
+                'request': function (config) {
+                    if (allowedMethods.indexOf(config.method) === -1) {
+                        var request = new XMLHttpRequest();
+                        request.open('GET', 'https://localhost:3030/csrftoken', false);
+                        request.withCredentials = true;
+                        request.send(null);
+
+                        if (request.status === 200) {
+                            config.headers[headerName] = request.responseText; //$cookies.get(cookieName);
+                        }
+                    }
+                    return config;
+                }
+            }
+        };
+    });
+
+	 function guid() {
+         function s4() {
+             return Math.floor((1 + Math.random()) * 0x10000)
+                     .toString(16)
+                     .substring(1);
+         }
+         return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                 s4() + '-' + s4() + s4() + s4();
+     }
+	
+
+	$(document).ready(function(){
+		document.cookie="username="+username;
+	});
+		 function userInfo() {
+			  FB.api(
+					  '/me',
+					  'GET',
+					  {"fields":"id,name,email"},
+					  function(response) {
+					      // Insert your code here
+					      console.info(response);
+					      $.post( "http://localhost:8080/account/", {response} );
+					  }
+					);
+
+			}
+	</script>
+</body>
+</html>

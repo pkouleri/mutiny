@@ -1,10 +1,14 @@
 package com.mutiny.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.ArrayList;
-import java.util.List;
+/**
+ * Created by sakis on 12/9/16.
+ */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Album {
@@ -20,10 +24,10 @@ public class Album {
     private AlbumTag albumTags;
 
     public Album() {
-        images = new ArrayList<AlbumImage>();
-        artist = "";
-        name = "";
-        albumTags = new AlbumTag();
+        this.images = new ArrayList<>();
+        this.artist = "";
+        this.name = "";
+        this.albumTags = new AlbumTag();
     }
 
     public String getName() { return name; }

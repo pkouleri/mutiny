@@ -1,0 +1,34 @@
+<!doctype html>
+<html ng-app="mutiny">
+<head>
+    <title>Mutiny Application</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
+    <script src="js/ng-stomp.standalone.min.js"></script>
+    <script src="hello.js"></script>
+    <script src="app.js"></script>
+</head>
+
+<body>
+
+<div id="posts"></div>
+
+<div ng-controller="PostCtrl">
+    <div ng-repeat="post in posts">
+        <div class="grid-item">
+            <p id="description-element">{{post.description}}</p>
+            <img ng-if={{post.category.name=='music'}} src="{{post.album.image[0].imageUrl}}" ng-click="alert('test')"/>
+            <img ng-if={{post.category.name=='movies'}} src="{{post.results[0].poster_path}}"/>
+            <img ng-if={{post.category.name=='books'}} src="{{post.items[0].volumeInfo.imageLinks.thumbnail}}"/>
+            <div class="container">
+                <p id="chat-element" ng-if={{post.category.name=='music'}} title="{{post.album.name}}">{{post.album.name}} by {{post.album.artist}}</p>
+                <p id="chat-element" ng-if={{post.category.name=='movies'}} title="{{post.results[0].original_title}}">{{post.results[0].original_title}}</p>
+                <p id="chat-element" ng-if={{post.category.name=='books'}} title="{{post.items[0].volumeInfo.title}}">{{post.items[0].volumeInfo.title}} by
+                    {{post.items[0].volumeInfo.authors[0]}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

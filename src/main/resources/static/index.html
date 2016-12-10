@@ -13,6 +13,36 @@
 <body>
 <noscript><h2 style="color: #ff0000">Seems your browser does not support Javascript!</h2></noscript>
 
+<script> 
+
+// $.get( "http://localhost:8080/account/user", function( data ) {
+// console.info(data.isNewUser);	
+// if(data==true){
+// 	window.location="http://localhost/mutiny/category.html";
+// }
+// 	});
+
+$.getJSON( "http://localhost:8080/account/user", function(data) {
+  console.log( data);
+var id = data.id;
+var username = data.username;
+var principal = data.principal;
+var isNewUser = data.isNewUser;
+
+if(isNewUser==true){
+window.location="http://localhost/mutiny/categories.html?id="+id+"&username="+username+"&isNewUser="+isNewUser;
+}
+else{
+window.location="http://localhost/mutiny/main.html?id="+id+"&username="+username+"&isNewUser="+isNewUser;
+}
+document.cookie = "username" + username; 
+})
+
+$( document ).ready(function() {
+});
+
+</script>
+
 <div id="main-content" class="container">
     <div class="row">
         <div class="col-md-6">

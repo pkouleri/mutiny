@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.collect.Iterables;
 import com.mutiny.dao.AccountRepository;
 import com.mutiny.dao.CategoryRepository;
 import com.mutiny.dao.PostRepository;
@@ -40,22 +42,25 @@ public class PostService extends AbstractService {
 		AbstractPostDto postDto = null;
 
 		// 1. get info from external API
-		switch  (postRequest.getCategory().toLowerCase()) {
-			case "music":
-				postDto = apiClient.getMusicContent(postRequest.getAlbumName(), postRequest.getArtist());
-				break;
-			case "movies":
-				postDto = apiClient.getMovieContent(postRequest.getTitle());
-				break;
-			case "books":
-				postDto = apiClient.getBookContent(postRequest.getAuthor(), postRequest.getTitle());
-				break;
-			default:
-				return null;
+		switch (postRequest.getCategory().toLowerCase()) {
+		case "music":
+			postDto = apiClient.getMusicContent(postRequest.getAlbumName(), postRequest.getArtist());
+			break;
+		case "movies":
+			postDto = apiClient.getMovieContent(postRequest.getTitle());
+			break;
+		case "books":
+			postDto = apiClient.getBookContent(postRequest.getAuthor(), postRequest.getTitle());
+			break;
+		default:
+			return null;
+
 		}
 
 		// 2. save to DB
 		if (postDto != null) {
+			postDto.setDescription(postRequest.getDescription());
+
 			Account account = accountRepository.findOne(postRequest.getAccountId());
 			Category category = categoryRepository.findByNameIgnoreCase(postRequest.getCategory());
 
@@ -82,19 +87,41 @@ public class PostService extends AbstractService {
 	}
 
 	public AbstractPostDto getPost(Integer id) {
-		AbstractPostDto dto = null;
 		Post post = postRepository.findOne(id);
+		return getPostDto(post);
+	}
 
+	public AbstractPostDto updatePost(AbstractPostDto post) {
+		return null;
+	}
+
+	public List<AbstractPostDto> getPosts(List<String> categories) {
+		List<AbstractPostDto> dtos = new ArrayList<>();
+		List<Post> posts = new ArrayList<>();
+		if (!CollectionUtils.isEmpty(categories)) {
+			posts = postRepository.findByCategory(categories);
+		} else {
+			Iterables.addAll(posts, postRepository.findAll());
+		}
+
+		for (Post post : posts) {
+			dtos.add(getPostDto(post));
+		}
+		return dtos;
+	}
+
+	private AbstractPostDto getPostDto(Post post) {
+		AbstractPostDto dto = null;
 		switch (post.getCategory().getName()) {
 		case "music":
 			dto = JsonHelper.fromJson(post.getContent(), new TypeReference<MusicPostDto>() {
 			});
 			break;
-		case "movie":
+		case "movies":
 			dto = JsonHelper.fromJson(post.getContent(), new TypeReference<MoviePostDto>() {
 			});
 			break;
-		case "book":
+		case "books":
 			dto = JsonHelper.fromJson(post.getContent(), new TypeReference<BookPostDto>() {
 			});
 			break;
@@ -107,17 +134,5 @@ public class PostService extends AbstractService {
 		}
 
 		return dto;
-	}
-
-	public AbstractPostDto updatePost(AbstractPostDto post) {
-		return null;
-	}
-
-	public List<AbstractPostDto> getPosts(List<String> categories) {
-		List<AbstractPostDto> abstractPostDtos = new ArrayList<>();
-		//		for (Post post : postRepository.findByCategory(categories)) {
-		//			abstractPostDtos.add(new AbstractPostDto().fromEntity(post));
-		//		}
-		return abstractPostDtos;
 	}
 }
