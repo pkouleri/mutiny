@@ -1,5 +1,8 @@
 package com.mutiny.web.controller;
 
+import com.mutiny.model.UserCategory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mutiny.dto.CategoryDto;
 import com.mutiny.service.CategoryService;
+
+import java.util.List;
 
 @RestController
 public class CategoryController {
@@ -37,13 +42,23 @@ public class CategoryController {
 		}
 	}
 
-	@RequestMapping(path = "/user/{id}/categories", method = { RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public Object setUserCategories(@PathVariable long userId, @RequestBody Object categories, HttpSession session) {
-		throw new NotImplementedException();
+	@RequestMapping(path = "/user/{userId}/categories", method = { RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<UserCategory>> setUserCategories(@PathVariable long userId, @RequestBody List<String> categories, HttpSession session) {
+		List<UserCategory> userCategories = categoryService.setUserCategories(categories, userId);
+		if (userCategories == null) {
+			return new ResponseEntity<List<UserCategory>>(userCategories, HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<List<UserCategory>>(userCategories, HttpStatus.CREATED);
+		}
 	}
 
-	@RequestMapping(path = "/user/{id}/categories", method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-	public Object getUserCategories(@PathVariable long userId, HttpSession session) {
-		throw new NotImplementedException();
+	@RequestMapping(path = "/user/{userId}/categories", method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<String>> getUserCategories(@PathVariable long userId, HttpSession session) {
+		List<String> userCategories = categoryService.getUserCategories(userId);
+		if (userCategories == null) {
+			return new ResponseEntity<List<String>>(userCategories, HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<List<String>>(userCategories, HttpStatus.OK);
+		}
 	}
 }
