@@ -112,7 +112,7 @@ public class PostService extends AbstractService {
 			dto = JsonHelper.fromJson(post.getContent(), new TypeReference<MoviePostDto>() {
 			});
 			break;
-		case "book":
+		case "books":
 			dto = JsonHelper.fromJson(post.getContent(), new TypeReference<BookPostDto>() {
 			});
 			break;

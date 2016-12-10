@@ -19,20 +19,13 @@
             <p id="description-element">{{post.description}}</p>
             <img ng-if={{post.category.name=='music'}} src="{{post.album.image[0].imageUrl}}" ng-click="alert('test')"/>
             <img ng-if={{post.category.name=='movies'}} src="{{post.results[0].poster_path}}"/>
+            <img ng-if={{post.category.name=='books'}} src="{{post.items[0].volumeInfo.imageLinks.thumbnail}}"/>
             <div class="container">
                 <p id="chat-element" ng-if={{post.category.name=='music'}} title="{{post.album.name}}">{{post.album.name}} by {{post.album.artist}}</p>
                 <p id="chat-element" ng-if={{post.category.name=='movies'}} title="{{post.results[0].original_title}}">{{post.results[0].original_title}}</p>
+                <p id="chat-element" ng-if={{post.category.name=='books'}} title="{{post.items[0].volumeInfo.title}}">{{post.items[0].volumeInfo.title}} by
+                    {{post.items[0].volumeInfo.authors[0]}}</p>
             </div>
-        </div>
-    </div>
-    <div class="grid-item">
-        <p>{{payload.description}}</p>
-        <img ng-if={{payload.category.name=='music'}} src="{{payload.album.image[0].imageUrl}}"/>
-        <img ng-if={{payload.category.name=='movies'}} src="{{payload.results[0].poster_path}}"/>
-        <div class="container">
-            <p id="chat-element" ng-if={{payload.category.name=='music'}} title="{{payload.album.name}}">{{payload.album.name}} by {{payload.album.artist}}</p>
-            <p id="chat-element" ng-if={{payload.category.name=='movies'}} title="{{payload.results[0].original_title}}">
-                {{payload.results[0].original_title}}</p>
         </div>
     </div>
 </div>
