@@ -12,7 +12,7 @@ public class PostRequest {
 
 	private String artist;
 
-	private String movieTitle;
+	private String title;
 
 	public String description;
 
@@ -20,9 +20,6 @@ public class PostRequest {
 
 	/* book */
 	public String isbn;
-
-	/* book, movie */
-	public String title;
 
 	public Integer getId() {
 		return id;
@@ -56,9 +53,9 @@ public class PostRequest {
 		return artist;
 	}
 
-	public String getMovieTitle() { return movieTitle; }
+	public String getTitle() { return title; }
 
-	public void setMovieTitle(String movieTitle) { this.movieTitle = movieTitle; }
+	public void setTitle(String title) { this.title = title; }
 
 	public String getAuthor() { return author; }
 

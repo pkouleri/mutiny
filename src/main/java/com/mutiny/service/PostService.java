@@ -45,10 +45,10 @@ public class PostService extends AbstractService {
 				postDto = apiClient.getMusicContent(postRequest.getAlbumName(), postRequest.getArtist());
 				break;
 			case "movies":
-				postDto = apiClient.getMovieContent(postRequest.getMovieTitle());
+				postDto = apiClient.getMovieContent(postRequest.getTitle());
 				break;
 			case "books":
-				postDto = apiClient.getBookContent(postRequest.getMovieTitle());
+				postDto = apiClient.getBookContent(postRequest.getAuthor(), postRequest.getTitle());
 				break;
 			default:
 				return null;
