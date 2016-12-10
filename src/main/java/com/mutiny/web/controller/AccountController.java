@@ -15,21 +15,21 @@ import org.apache.catalina.User;
 import org.apache.http.protocol.BasicHttpContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-//import org.springframework.security.authentication.AbstractAuthenticationToken;
-//import org.springframework.security.authentication.AnonymousAuthenticationToken;
-//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.core.Authentication;
-//import org.springframework.security.core.CredentialsContainer;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.context.SecurityContext;
-//import org.springframework.security.core.context.SecurityContextHolder;
-//import org.springframework.security.oauth2.provider.OAuth2Authentication;
-//import org.springframework.security.oauth2.provider.OAuth2Request;
-//import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
-//import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.CredentialsContainer;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Request;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -71,38 +71,39 @@ public class AccountController {
 		return accountService.createAccount(accountDto);
 	}
 	
-	@RequestMapping("/user")
-	public AccountDto user(Principal principal, HttpServletRequest request, HttpServletResponse response) {
-		
-/*		OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
-		Authentication userAuthentication = oAuth2Authentication.getUserAuthentication();
-		String str = userAuthentication.getDetails().toString();
-		
-		
-		Boolean isNewuser = new Boolean(false);
-		
-		// persist account to db
-		String name = str.substring((str.indexOf("name=")+"name=".length()), str.indexOf(","));
-		String principalId = str.substring((str.indexOf("id=")+"id=".length()), str.indexOf("}"));
-		
-		AccountDto accountDto = accountService.findByPrincipal(principalId);
-		if(accountDto == null){
-			accountDto = new AccountDto();
-			accountDto.setUsername(name);
-			accountDto.setEmail("email@x.com");
-			accountDto.setType("fb");
-			accountDto.setPrincipal(principalId);
-			
-			accountDto.setIsNewUser(true);
-			
-			accountService.createAccount(accountDto);
-			return  accountDto;
-		}
-		accountDto.setIsNewUser(false);
-		return accountDto;*/
-		
-		return null;
-	}
+//	@RequestMapping("/user")
+//	public AccountDto user(Principal principal, HttpServletRequest request, HttpServletResponse response) {
+//		
+//		OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+//		Authentication userAuthentication = oAuth2Authentication.getUserAuthentication();
+//		String str = userAuthentication.getDetails().toString();
+//		
+//		
+//		Boolean isNewuser = new Boolean(false);
+//		
+//		// persist account to db
+//		String name = str.substring((str.indexOf("name=")+"name=".length()), str.indexOf(","));
+//		String principalId = str.substring((str.indexOf("id=")+"id=".length()), str.indexOf("}"));
+//		
+//		AccountDto accountDto = accountService.findByPrincipal(principalId);
+//		if(accountDto == null){
+//			accountDto = new AccountDto();
+//			accountDto.setUsername(name);
+//			accountDto.setEmail("email@x.com");
+//			accountDto.setType("fb");
+//			accountDto.setPrincipal(principalId);
+//			
+//			accountDto.setIsNewUser(true);
+//			
+//			accountService.createAccount(accountDto);
+//			return  accountDto;
+//		}
+//		accountDto.setIsNewUser(false);
+//		return accountDto;
+//		
+//	}
+	
+	
 	
 	private Cookie createCookie(String cookieName, String cookieValue) {
 	    Cookie cookie = new Cookie(cookieName, cookieValue);

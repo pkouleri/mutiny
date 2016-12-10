@@ -2,58 +2,61 @@ package com.mutiny.web.controller;
 
 import java.security.Principal;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
-import org.springframework.core.annotation.Order;
-//import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-//import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-//import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-//import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
-//import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mutiny.dto.AccountDto;
+import com.mutiny.service.AccountService;
 
 
 
 
-public class SocialApplication/* extends WebSecurityConfigurerAdapter*/ {
+@RestController
+public class SocialApplication {
 	
-//	public Principal user(Principal principal) {
-//		return principal;
-//	}
-
-/*	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http
-	      .antMatcher("/**")
-	      .authorizeRequests()
-	        .antMatchers("/", "/login**", "/webjars/**")
-	        .permitAll()
-	      .anyRequest()
-	        .authenticated();
-	}
+	@Autowired
+	AccountService accountService;
 	
 	@RequestMapping("/user")
-	public Principal user(Principal principal) {
-		return principal;
-	}*/
+	public AccountDto user(Principal principal) {
+		OAuth2Authentication oAuth2Authentication = (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+		Authentication userAuthentication = oAuth2Authentication.getUserAuthentication();
+		String str = userAuthentication.getDetails().toString();
+		
+		
+		// persist account to db
+		String name = str.substring((str.indexOf("name=")+"name=".length()), str.indexOf(","));
+		String principalId = str.substring((str.indexOf("id=")+"id=".length()), str.indexOf("}"));
+		
+		AccountDto accountDto = accountService.findByPrincipal(principalId);
+		if(accountDto == null){
+			accountDto = new AccountDto();
+			accountDto.setUsername(name);
+			accountDto.setEmail("email@x.com");
+			accountDto.setType("fb");
+			accountDto.setPrincipal(principalId);
+			
+			accountDto.setIsNewUser(true);
+			
+			accountService.createAccount(accountDto);
+			return  accountDto;
+		}
+		accountDto.setIsNewUser(false);
+		return accountDto;
+	}
+	
+	@RequestMapping(path= "/logout",method = { RequestMethod.POST })
+	public void logout(HttpSession session) {
+		session.invalidate();
+	}
 
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//		http
-//	    .formLogin()
-//	        .loginPage("/login") 
-//	        .permitAll()
-//	        .and()
-//	    .authorizeRequests()
-//	        .anyRequest()
-//	        .authenticated(); 
-//	}
-
-//	public static void main(String[] args) {
-//		SpringApplication.run(SocialApplication.class, args);
-//	}
 
 }
