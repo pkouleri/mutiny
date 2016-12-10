@@ -13,7 +13,6 @@ public class ApiClient {
 
 	public MusicPostDto getMusicContent(String album, String artist) {
 		MusicPostDto response = new MusicPostDto();
-
 		String musicUrl = "http://ws.audioscrobbler.com/2.0/?method={method}&api_key={api_key}&artist={artist}&album={album}&format={format}";
 		Map<String, String> parameters = new HashMap<>(5);
 		parameters.put("method", "album.getinfo");
@@ -41,7 +40,6 @@ public class ApiClient {
 	}
 
 	public MoviePostDto getMovieContent(String name) {
-		RestTemplate restTemplate = new RestTemplate();
 		MoviePostDto response = new MoviePostDto();
 		MovieGenreList genresList = new MovieGenreList();
 		String movieUrl = "https://api.themoviedb.org/3/search/movie?api_key={api_key}&query={name}";
@@ -79,7 +77,37 @@ public class ApiClient {
 	}
 
 	public BookPostDto getBookContent(String author, String title) {
-		return null;
+		BookPostDto response = new BookPostDto();
+		String bookUrl = "https://www.googleapis.com/books/v1/volumes?q=intitle:\"{title}\"+inauthor:\"{author}\"\"";
+		Map<String, String> parameters = new HashMap<>(2);
+		parameters.put("title", title);
+		parameters.put("author", author);
+		try {
+			response = restTemplate.getForObject(bookUrl, BookPostDto.class, parameters);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		if (response.getBooks().size() == 0) {
+			return null;
+		} else {
+			Book book = new Book();
+			for (Book b : response.getBooks()) {
+				if (!b.getInfo().getThumbnail().getName().equals("")) {
+					book = b;
+					break;
+				} else {
+					book = null;
+				}
+			}
+			if (book == null) {
+				book = response.getBooks().get(0);
+			}
+			response.getBooks().clear();
+			response.getBooks().add(book);
+			response.getBooks().get(0).getInfo().setDescription(response.getBooks().get(0).getInfo().getDescription().substring(0, 400));
+			return response;
+		}
 	}
 
 }

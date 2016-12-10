@@ -52,7 +52,6 @@ public class PostService extends AbstractService {
 				break;
 			default:
 				return null;
-
 		}
 
 		// 2. save to DB
