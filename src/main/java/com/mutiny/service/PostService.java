@@ -72,6 +72,15 @@ public class PostService extends AbstractService {
 		return postDto;
 	}
 
+	public Post deletePost(Integer postId) {
+		Post post = null;
+		post = postRepository.findOne(postId);
+		if (post != null) {
+			postRepository.delete(post);
+		}
+		return post;
+	}
+
 	public AbstractPostDto getPost(Integer id) {
 		AbstractPostDto dto = null;
 		Post post = postRepository.findOne(id);

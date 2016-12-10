@@ -2,6 +2,7 @@ package com.mutiny.web.controller;
 
 import java.util.List;
 
+import com.mutiny.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,8 +46,13 @@ public class PostController {
     }
 
     @RequestMapping(path = "/{id}", method = { RequestMethod.DELETE }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public AbstractPostDto deletePost(@PathVariable Integer id) {
-        return postService.getPost(id);
+    public ResponseEntity<Post> deletePost(@PathVariable Integer id) {
+        Post post = postService.deletePost(id);
+        if (post == null) {
+            return new ResponseEntity<Post>(post, HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<Post>(post, HttpStatus.OK);
+        }
     }
 
     @RequestMapping(path = "/list", method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
