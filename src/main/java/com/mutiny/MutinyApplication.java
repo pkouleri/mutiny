@@ -14,6 +14,7 @@ import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,7 @@ import com.mutiny.events.listeners.EventListener;
 
 @SpringBootApplication
 @EnableAutoConfiguration
+//@EnableOAuth2Sso
 public class MutinyApplication extends SpringBootServletInitializer {
 	final static String CONFIG_NAME = "mutiny-application";
 

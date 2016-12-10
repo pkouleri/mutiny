@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Mutiny!!!</title>
+    
+    <link rel="stylesheet" type="text/css"	href="/webjars/bootstrap/css/bootstrap.min.css" />
+	<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+	<script type="text/javascript"	src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body ng-app="app" ng-controller="home as home">
+
+<script>
+window.fbAsyncInit = function() {
+    FB.init({ 
+      appId: '201488213642907',
+      status: true, 
+      cookie: true, 
+      xfbml: true,
+      version: 'v2.8'
+    });
+};
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+
+ 	<div class="container" ng-show="!home.authenticated">
+		With Facebook: <a href="/login/facebook">click here</a>
+	</div>
+	
+	<div class="container" ng-show="home.authenticated">
+		Logged in as: <span ng-bind="home.user"></span>
+		<div>
+			<button ng-click="home.logout()" class="btn btn-primary">Logout</button>
+		</div>
+	</div> 
+
+<div id="status">
+	<a href="#" class="user info" onclick="userInfo();">user info</a> 
+</div>
+<script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
+	<script type="text/javascript">
+		angular
+				.module("app", [])
+				.config(
+						function($httpProvider) {
+							$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+							console.info($httpProvider);
+						}).controller("home", function($http, $location) {
+					var self = this;
+					console.info($http.get("/user").toString);
+					$http.get("/user").success(function(data) {
+						if (data.name) {
+							self.user = data.name;
+							self.authenticated = true;
+							console.info(data);
+							console.info(self);
+						} else {
+							self.user = "N/A";
+							self.authenticated = false;
+						}
+					}).error(function() {
+						self.user = "N/A";
+						self.authenticated = false;
+					});
+					self.logout = function() {
+						$http.post('logout', {}).success(function() {
+							self.authenticated = false;
+							$location.path("/");
+						}).error(function(data) {
+							console.log("Logout failed")
+							self.authenticated = false;
+						});
+					};
+				});
+
+		
+
+
+
+		
+	</script> 
+<script>
+		  function userInfo() {
+			  FB.api(
+					  '/me',
+					  'GET',
+					  {"fields":"id,name,email"},
+					  function(response) {
+					      // Insert your code here
+					      console.info(response);
+					  }
+					);
+
+			}
+</script>
+</body>
+</html>

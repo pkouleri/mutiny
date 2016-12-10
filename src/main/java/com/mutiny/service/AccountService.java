@@ -25,5 +25,12 @@ public class AccountService extends AbstractService {
 		Account account = accountRepository.save(accountDto.toEntity(accountDto));
 		return new AccountDto().fromEntity(account);
 	}
+	
+	public AccountDto findByPrincipal(String principal){
+		Account account = accountRepository.findByPrincipal(principal);
+		if(account!=null)
+			return new AccountDto().fromEntity(account);
+		else return null;
+	}
 
 }
