@@ -42,14 +42,25 @@ public class PostService extends AbstractService {
 		AbstractPostDto postDto = null;
 
 		// 1. get info from external API
-		if (postRequest.getCategory().equals("Music")) {
-			postDto = apiClient.getMusicContent(postRequest.getAlbumName(), postRequest.getArtist());
+		switch  (postRequest.getCategory().toLowerCase()) {
+			case "music":
+				postDto = apiClient.getMusicContent(postRequest.getAlbumName(), postRequest.getArtist());
+				break;
+			case "movies":
+				postDto = apiClient.getMovieContent(postRequest.getTitle());
+				break;
+			case "books":
+				postDto = apiClient.getBookContent(postRequest.getAuthor(), postRequest.getTitle());
+				break;
+			default:
+				return null;
+
 		}
 
 		// 2. save to DB
 		if (postDto != null) {
 			Account account = accountRepository.findOne(postRequest.getAccountId());
-			Category category = categoryRepository.findByName(postRequest.getCategory());
+			Category category = categoryRepository.findByNameIgnoreCase(postRequest.getCategory());
 
 			Post post = postRepository.save(new Post(account, category, JsonHelper.toJson(postDto)));
 			if (post != null) {
@@ -112,7 +123,7 @@ public class PostService extends AbstractService {
 			dto.setAccount(post.getAccount());
 			dto.setCategory(post.getCategory());
 		}
-		
+
 		return dto;
 	}
 }

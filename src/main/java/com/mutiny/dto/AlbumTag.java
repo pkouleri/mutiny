@@ -5,9 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by sakis on 12/9/16.
- */
 public class AlbumTag {
 
     @JsonProperty("tag")

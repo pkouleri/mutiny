@@ -8,6 +8,6 @@ import com.mutiny.model.Category;
 
 public interface CategoryRepository extends CrudRepository<Category, Integer> {
 
-	@Query("select c from Category c where c.name = :name")
-	public Category findByName(@Param("name") String name);
+	//@Query("select c from Category c where c.name = :name")
+	Category findByNameIgnoreCase(/*@Param("name") */String name);
 }

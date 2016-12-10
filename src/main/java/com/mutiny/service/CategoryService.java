@@ -19,7 +19,7 @@ public class CategoryService {
 	}
 
 	public CategoryDto findCategoryByName(String name) {
-		Category category = categoryRepository.findByName(name);
+		Category category = categoryRepository.findByNameIgnoreCase(name);
 		return new CategoryDto().fromEntity(category);
 	}
 

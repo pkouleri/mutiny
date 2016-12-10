@@ -1,15 +1,11 @@
 package com.mutiny.dto;
 
-/**
- * Created by sakis on 12/9/16.
- */
-
 public class Tag {
 
     private String name;
 
     public Tag() {
-        this.name = new String();
+        this.name = "";
     }
 
     public String getName() { return name; }
