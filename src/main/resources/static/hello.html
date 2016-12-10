@@ -4,20 +4,35 @@
     <title>Mutiny Application</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular-resource.min.js"></script>
+    <script src="js/ng-stomp.standalone.min.js"></script>
     <script src="hello.js"></script>
+    <script src="app.js"></script>
 </head>
 
 <body>
 
+<div id="posts"></div>
+
 <div ng-controller="PostCtrl">
     <div ng-repeat="post in posts">
         <div class="grid-item">
-            <p>{{post.id}}</p>
-            <img src="{{post.album.image[0].imageUrl}}"/>
+            <p id="description-element">{{post.description}}</p>
+            <img ng-if={{post.category.name=='music'}} src="{{post.album.image[0].imageUrl}}" ng-click="alert('test')"/>
+            <img ng-if={{post.category.name=='movies'}} src="{{post.results[0].poster_path}}"/>
             <div class="container">
                 <p id="chat-element" ng-if={{post.category.name=='music'}} title="{{post.album.name}}">{{post.album.name}} by {{post.album.artist}}</p>
-                <p id="chat-element" ng-if={{post.category.name=='movies'}} title="{{post.movie.name}}">{{post.movie.name}}</p>
+                <p id="chat-element" ng-if={{post.category.name=='movies'}} title="{{post.results[0].original_title}}">{{post.results[0].original_title}}</p>
             </div>
+        </div>
+    </div>
+    <div class="grid-item">
+        <p>{{payload.description}}</p>
+        <img ng-if={{payload.category.name=='music'}} src="{{payload.album.image[0].imageUrl}}"/>
+        <img ng-if={{payload.category.name=='movies'}} src="{{payload.results[0].poster_path}}"/>
+        <div class="container">
+            <p id="chat-element" ng-if={{payload.category.name=='music'}} title="{{payload.album.name}}">{{payload.album.name}} by {{payload.album.artist}}</p>
+            <p id="chat-element" ng-if={{payload.category.name=='movies'}} title="{{payload.results[0].original_title}}">
+                {{payload.results[0].original_title}}</p>
         </div>
     </div>
 </div>

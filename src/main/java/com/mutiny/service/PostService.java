@@ -42,23 +42,25 @@ public class PostService extends AbstractService {
 		AbstractPostDto postDto = null;
 
 		// 1. get info from external API
-		switch  (postRequest.getCategory().toLowerCase()) {
-			case "music":
-				postDto = apiClient.getMusicContent(postRequest.getAlbumName(), postRequest.getArtist());
-				break;
-			case "movies":
-				postDto = apiClient.getMovieContent(postRequest.getTitle());
-				break;
-			case "books":
-				postDto = apiClient.getBookContent(postRequest.getAuthor(), postRequest.getTitle());
-				break;
-			default:
-				return null;
+		switch (postRequest.getCategory().toLowerCase()) {
+		case "music":
+			postDto = apiClient.getMusicContent(postRequest.getAlbumName(), postRequest.getArtist());
+			break;
+		case "movies":
+			postDto = apiClient.getMovieContent(postRequest.getTitle());
+			break;
+		case "books":
+			postDto = apiClient.getBookContent(postRequest.getAuthor(), postRequest.getTitle());
+			break;
+		default:
+			return null;
 
 		}
 
 		// 2. save to DB
 		if (postDto != null) {
+			postDto.setDescription(postRequest.getDescription());
+
 			Account account = accountRepository.findOne(postRequest.getAccountId());
 			Category category = categoryRepository.findByNameIgnoreCase(postRequest.getCategory());
 
@@ -77,9 +79,7 @@ public class PostService extends AbstractService {
 
 	public AbstractPostDto getPost(Integer id) {
 		Post post = postRepository.findOne(id);
-		AbstractPostDto dto = getPostDto(post);
-
-		return dto;
+		return getPostDto(post);
 	}
 
 	public AbstractPostDto updatePost(AbstractPostDto post) {
@@ -108,7 +108,7 @@ public class PostService extends AbstractService {
 			dto = JsonHelper.fromJson(post.getContent(), new TypeReference<MusicPostDto>() {
 			});
 			break;
-		case "movie":
+		case "movies":
 			dto = JsonHelper.fromJson(post.getContent(), new TypeReference<MoviePostDto>() {
 			});
 			break;

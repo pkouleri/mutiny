@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import com.mutiny.dto.AbstractPostDto;
 import com.mutiny.dto.PostRequest;
 import com.mutiny.service.PostService;
 
+@CrossOrigin(origins = "http://10.9.41.76")
 @RestController
 @RequestMapping("/post")
 public class PostController {
@@ -24,7 +26,7 @@ public class PostController {
     @Autowired
     PostService postService;
 
-    @RequestMapping(method = { RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(method = { RequestMethod.POST }, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<AbstractPostDto> createPost(@RequestBody PostRequest post) {
         AbstractPostDto postDto = postService.createPost(post);
         if (postDto != null) {
