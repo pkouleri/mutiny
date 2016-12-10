@@ -59,4 +59,8 @@ public class PostRequest {
 	public String getMovieTitle() { return movieTitle; }
 
 	public void setMovieTitle(String movieTitle) { this.movieTitle = movieTitle; }
+
+	public String getAuthor() { return author; }
+
+	public void setAuthor(String author) { this.author = author; }
 }

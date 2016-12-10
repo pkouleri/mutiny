@@ -47,6 +47,12 @@ public class PostService extends AbstractService {
 			case "movies":
 				postDto = apiClient.getMovieContent(postRequest.getMovieTitle());
 				break;
+			case "books":
+				postDto = apiClient.getBookContent(postRequest.getMovieTitle());
+				break;
+			default:
+				return null;
+
 		}
 
 		// 2. save to DB
@@ -69,8 +75,8 @@ public class PostService extends AbstractService {
 
 	public AbstractPostDto getPost(Integer id) {
 		AbstractPostDto dto = null;
-
 		Post post = postRepository.findOne(id);
+
 		switch (post.getCategory().getName()) {
 		case "music":
 			dto = JsonHelper.fromJson(post.getContent(), new TypeReference<MusicPostDto>() {
