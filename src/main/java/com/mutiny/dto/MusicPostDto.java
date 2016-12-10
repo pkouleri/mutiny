@@ -1,7 +1,6 @@
 package com.mutiny.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mutiny.support.JsonHelper;
 
 public class MusicPostDto extends AbstractPostDto {
 

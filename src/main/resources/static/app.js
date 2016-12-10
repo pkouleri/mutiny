@@ -17,7 +17,7 @@ function connect() {
         setConnected(true);
         console.log("Connected: " + frame);
         stompClient.subscribe('/topic/posts', function(mutinyPost) {
-            showGreeting(JSON.parse(mutinyPost.body).content);
+            showGreeting(mutinyPost.body);
         })
     });
 }
@@ -34,6 +34,21 @@ function sendName() {
     stompClient.send("/app/post", {}, JSON.stringify({'content': $("#content").val()}));
 }
 
+function sendPost() {
+    var data = JSON.stringify($("#content").val());
+    $.ajax({
+        type: "POST",
+        url: "/post",
+        data: data,
+        success: success,
+        dataType: "json"
+    });
+}
+
+function success() {
+    console.log("success");
+}
+
 function showGreeting(content) {
     $("#posts").append("<tr><td>" + content + "</td></tr>");
 }
@@ -41,9 +56,7 @@ function showGreeting(content) {
 $(function () {
     connect();
 
-    $("form").on('submit', function (e) {
-        e.preventDefault();
+    $("#send").click(function () {
+        sendPost();
     });
-
-    $( "#send" ).click(function() { sendName(); });
 });
