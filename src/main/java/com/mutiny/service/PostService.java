@@ -3,6 +3,7 @@ package com.mutiny.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mutiny.model.UserCategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -110,9 +111,26 @@ public class PostService extends AbstractService {
 		return dtos;
 	}
 
+	public List<AbstractPostDto> getUserPosts(Account userAccount, List<UserCategory> userCategories) {
+		List<Category> categories = new ArrayList<Category>();
+		for (UserCategory preference : userCategories) {
+			categories.add(preference.getCategory());
+		}
+		List<Post> userPosts = new ArrayList<Post>();
+		for (Category category : categories) {
+			userPosts.addAll(postRepository.findByAccountAndCategory(userAccount, category));
+		}
+		List<AbstractPostDto> dtos = new ArrayList<AbstractPostDto>();
+		userPosts.sort(new PostComparator());
+		for (Post post : userPosts) {
+			dtos.add(getPostDto(post));
+		}
+		return dtos;
+	}
+
 	private AbstractPostDto getPostDto(Post post) {
 		AbstractPostDto dto = null;
-		switch (post.getCategory().getName()) {
+		switch (post.getCategory().getName().toLowerCase()) {
 		case "music":
 			dto = JsonHelper.fromJson(post.getContent(), new TypeReference<MusicPostDto>() {
 			});

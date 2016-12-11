@@ -1,5 +1,9 @@
 package com.mutiny.web.controller;
 
+import com.mutiny.dto.AbstractPostDto;
+import com.mutiny.service.PostService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.servlet.http.Cookie;
@@ -18,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mutiny.dto.AccountDto;
 import com.mutiny.service.AccountService;
+
+import java.util.List;
 
 //@CrossOrigin(origins="http://localhost:8080")
 @RestController
@@ -47,6 +53,16 @@ public class AccountController {
 	@RequestMapping(path = "/{id}",method = { RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public AccountDto createAccount(@RequestBody AccountDto accountDto) {
 		return accountService.createAccount(accountDto);
+	}
+
+	@RequestMapping(path = "/{userId}/posts",method = { RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	public ResponseEntity<List<AbstractPostDto>> getPosts(@PathVariable Integer userId, HttpSession session) {
+		List<AbstractPostDto> postDtos = accountService.getAccountPosts(userId);
+		if (postDtos == null) {
+			return new ResponseEntity<List<AbstractPostDto>>(postDtos, HttpStatus.BAD_REQUEST);
+		} else {
+			return new ResponseEntity<List<AbstractPostDto>>(postDtos, HttpStatus.OK);
+		}
 	}
 	
 //	@RequestMapping("/user")
