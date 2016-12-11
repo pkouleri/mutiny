@@ -3,7 +3,7 @@ spring:
         default-domain: mutiny
     aop.proxy-target-class: true
     datasource:
-        url: jdbc:postgresql://localhost:5444/mutiny
+        url: jdbc:postgresql://rdbms:5432/mutiny
         username: mutiny
         password: upstream
         driver-class-name: org.postgresql.Driver
