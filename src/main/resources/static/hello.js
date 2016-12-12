@@ -1,12 +1,14 @@
+var posts = [];
 angular.module('mutiny', ['ngStomp'])
     .controller('PostCtrl', function ($scope, $http, $log, $stomp) {
         $stomp
-            .connect('/channel')
+            .connect('http://localhost:8080/channel')
             .then(function (frame) {
                 var subscription = $stomp.subscribe('/topic/posts', function (payload, headers, res) {
                     console.log("payload is:" + payload);
+                    posts.push(payload);
                     $scope.$apply(function () {
-                        $scope.payload = payload;
+                        $scope.posts = posts;
                     });
                 }, {
                     'headers': 'are awesome'
@@ -14,6 +16,7 @@ angular.module('mutiny', ['ngStomp'])
             });
 
         $http.get('/post/list').then(function (response) {
-            $scope.posts = response.data;
+            posts = response.data;
+            $scope.posts = posts;
         });
     });
